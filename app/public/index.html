@@ -48,19 +48,37 @@
         <div class="nav-links">
             <a href="/" class="active">Home</a>
             <a href="/pages/my-tasks.html">My Tasks</a>
-      
         </div>
         <div class="nav-controls">
+            <a href="https://ulrichraab.eu" class="nav-secondary-button">Stay up to date 📰</a>
             <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
             <button class="profile-btn">😎</button>
         </div>
     </nav>
 
+    <div class="modal-overlay"></div>
+    <div class="profile-modal">
+        <div class="modal-header">
+            <h2>👋 Coming Soon!</h2>
+            <button class="close-btn">×</button>
+        </div>
+        <div class="modal-content">
+            <p>User profiles and progress tracking are coming in the next update!</p>
+            <div class="feature-preview">
+                <div class="preview-item">👤 Custom Profiles</div>
+                <div class="preview-item">📊 Progress Dashboard</div>
+                <div class="preview-item">🏆 Achievements</div>
+            </div>
+        </div>
+    </div>
+
     <main>
         <section class="hero">
             <h1>Get stuff done,<br>have fun! 🚀</h1>
             <p class="subtitle">The task manager that makes productivity feel like a game</p>
-            <button class="cta-button" onclick="window.location.href='/pages/my-tasks.html'">Start Tasking! ⚡️</button>
+            <div class="hero-buttons">
+                <button class="cta-button" onclick="window.location.href='/pages/my-tasks.html'">Start Tasking! ⚡️</button>
+            </div>
         </section>
 
         <section class="features">
@@ -123,6 +141,13 @@
         </div>
     </footer>
     <script src="/scripts/main.js"></script>
+    <script type="module">
+        import { initializeProfileModal } from '/scripts/profile-modal.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeProfileModal();
+        });
+    </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
