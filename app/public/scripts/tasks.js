@@ -233,19 +233,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderTask(taskData) {
         const taskHtml = `
-            <div class="task-item" id="${taskData.id}" draggable="true">
-                <div class="task-content">
+            <div class="task-item ${taskData.completed ? 'completed' : ''}" id="${taskData.id}" draggable="true">
+                <span class="drag-handle">⋮⋮</span>
+                <label class="task-checkbox">
                     <input type="checkbox" ${taskData.completed ? 'checked' : ''}>
-                    <h3>${taskData.text}</h3>
+                    <span class="checkmark"></span>
+                </label>
+                <div class="task-content">
+                    <h3 class="task-text">${taskData.text}</h3>
                 </div>
                 <div class="task-actions">
-                    <button class="edit-btn">✏️</button>
-                    <button class="delete-btn">🗑️</button>
+                    <button class="task-btn edit-btn" title="Edit task">✏️</button>
+                    <button class="task-btn delete-btn" title="Delete task">🗑️</button>
                 </div>
             </div>
         `;
 
-        // Find the correct category container
         const categoryContainer = document.querySelector(
             `[data-category="${taskData.category}"] .tasks-container`
         ) || document.querySelector('[data-category="inbox"] .tasks-container');
@@ -258,17 +261,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initializeTaskListeners(taskElement) {
-        // Checkbox listener
+        // Existing listeners
         const checkbox = taskElement.querySelector('input[type="checkbox"]');
         checkbox.addEventListener('change', (e) => {
             taskStore.updateTask(taskElement.id, { completed: e.target.checked });
+            taskElement.classList.toggle('completed', e.target.checked);
         });
 
-        // Delete button listener
         const deleteBtn = taskElement.querySelector('.delete-btn');
         deleteBtn.addEventListener('click', () => {
             taskElement.remove();
             taskStore.removeTask(taskElement.id);
+        });
+
+        // New edit functionality
+        const editBtn = taskElement.querySelector('.edit-btn');
+        const taskTextElement = taskElement.querySelector('.task-text');
+        
+        editBtn.addEventListener('click', () => {
+            const currentText = taskTextElement.textContent;
+            taskTextElement.innerHTML = `
+                <input type="text" class="edit-input" value="${currentText}">
+            `;
+            
+            const editInput = taskTextElement.querySelector('.edit-input');
+            editInput.focus();
+            editInput.select();
+
+            function saveEdit() {
+                const newText = editInput.value.trim();
+                if (newText) {
+                    taskStore.updateTask(taskElement.id, { text: newText });
+                    taskTextElement.textContent = newText;
+                } else {
+                    taskTextElement.textContent = currentText;
+                }
+            }
+
+            editInput.addEventListener('blur', saveEdit);
+            editInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    saveEdit();
+                }
+            });
+            editInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Escape') {
+                    taskTextElement.textContent = currentText;
+                }
+            });
         });
 
         // Drag and drop listeners
@@ -336,5 +377,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update DOM
             dropZone.appendChild(taskElement);
         }
+    }
+
+    // Helper function to get category name
+    function getCategoryName(category) {
+        const categories = {
+            'inbox': 'Inbox',
+            'a': 'Priority A',
+            'b': 'Priority B',
+            'c': 'Priority C',
+            'd': 'Delegate',
+            'e': 'Eliminate'
+        };
+        return categories[category] || 'Inbox';
     }
 });

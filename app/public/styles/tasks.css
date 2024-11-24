@@ -100,48 +100,102 @@
     padding-bottom: 1rem;
 }
 
-/* Task Items */
+/* Enhanced Task Items styling */
 .task-item {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 1.25rem;
+    padding: 1.5rem;
     background: var(--card-bg);
-    border-radius: 12px;
-    margin-bottom: 0.75rem;
-    transition: transform 0.2s ease;
-    border: 1px solid var(--shadow);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    cursor: grab;
+    box-shadow: 0 2px 4px var(--shadow);
 }
 
 .task-item:hover {
-    transform: translateX(5px);
+    transform: translateX(8px);
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px var(--shadow);
 }
 
+/* Improved checkbox styling */
 .task-checkbox {
     position: relative;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    cursor: pointer;
 }
 
 .task-checkbox input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    border-radius: 6px;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
     cursor: pointer;
-    border: 2px solid var(--text-light);
 }
 
+.task-checkbox::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: white;
+    transition: transform 0.2s ease;
+}
+
+.task-checkbox input[type="checkbox"]:checked + .task-checkbox {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.task-checkbox input[type="checkbox"]:checked + .task-checkbox::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Enhanced task content */
 .task-content {
-    flex: 1;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
 }
 
-.task-content h3 {
+.task-text {
     font-size: 1.1rem;
+    color: var(--text);
     font-weight: 600;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Add edit input styling */
+.edit-input {
+    width: 100%;
+    font-size: 1.1rem;
+    font-family: 'Outfit', sans-serif;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+    background: var(--card-bg);
     color: var(--text);
 }
 
+.edit-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+/* Improved task actions */
 .task-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.75rem;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
@@ -151,26 +205,55 @@
 }
 
 .task-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border-color);
     padding: 0.5rem;
     border-radius: 8px;
-    transition: background-color 0.2s;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
 }
 
 .task-btn:hover {
-    background: var(--shadow);
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-2px);
 }
 
-/* Completed Task Style */
+/* Enhanced completed task style */
 .task-item.completed {
-    opacity: 0.7;
+    opacity: 0.85;
+    background: var(--success-light);
+    border-color: var(--success);
 }
 
 .task-item.completed .task-content h3 {
     text-decoration: line-through;
     color: var(--text-light);
+}
+
+.task-item.completed .task-category {
+    background: var(--success-light);
+    color: var(--success);
+}
+
+/* Add drag handle */
+.drag-handle {
+    color: var(--text-light);
+    cursor: grab;
+    padding: 0.5rem;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+.task-item:hover .drag-handle {
+    opacity: 1;
 }
 
 /* Empty State */
@@ -612,4 +695,10 @@
 :root {
     --warning: #f0b429;
     --warning-light: #fef3c7;
+    --success: #10B981;
+    --success-light: #D1FAE5;
+    --primary-dark: #1D4ED8;
+    --border-color: #e2e8f0;
+    --primary-light: #dbeafe;
+    --shadow: rgba(0, 0, 0, 0.1);
 }
