@@ -2,6 +2,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.querySelector('.task-input');
     const addButton = document.querySelector('.add-btn');
     
+    // Check for pending task from home page
+    const pendingTask = sessionStorage.getItem('pendingTask');
+    if (pendingTask) {
+        // Clear the pending task
+        sessionStorage.removeItem('pendingTask');
+        // Add it to the task input
+        const taskInput = document.querySelector('.task-input');
+        taskInput.value = pendingTask;
+        // Optional: automatically add the task
+        addNewTask();
+    }
+
     // Task store with localStorage persistence
     const taskStore = {
         tasks: new Map(),

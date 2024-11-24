@@ -12,11 +12,14 @@
 </head>
 <body>
     <nav>
-        <div class="logo">Task-Me ✨</div>
+        <div class="logo">
+            Task-Me ✨
+            <span class="beta-badge">BETA</span>
+        </div>
         <div class="nav-links">
             <a href="/" class="active">Home</a>
             <a href="/pages/my-tasks.html">My Tasks</a>
-            <a href="#">Stats</a>
+      
         </div>
         <div class="nav-controls">
             <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
@@ -29,13 +32,6 @@
             <h1>Get stuff done,<br>have fun! 🚀</h1>
             <p class="subtitle">The task manager that makes productivity feel like a game</p>
             <button class="cta-button" onclick="window.location.href='/pages/my-tasks.html'">Start Tasking! ⚡️</button>
-        </section>
-
-        <section class="quick-add">
-            <div class="task-input-container">
-                <input type="text" placeholder="Add a new task..." class="task-input">
-                <button class="add-btn">+</button>
-            </div>
         </section>
 
         <section class="features">
@@ -55,8 +51,48 @@
                 <p>Earn badges and compete with friends</p>
             </div>
         </section>
-    </main>
 
+        <section class="functionality">
+            <h2>How It Works</h2>
+            <div class="functionality-grid">
+                <div class="functionality-card">
+                    <div class="functionality-icon">📥</div>
+                    <h3>Smart Inbox</h3>
+                    <p>All new tasks land in your inbox. Drag & drop to categorize them based on priority.</p>
+                </div>
+                <div class="functionality-card">
+                    <div class="functionality-icon">⌨️</div>
+                    <h3>Keyboard Shortcuts</h3>
+                    <p>Power users can navigate and manage tasks without touching the mouse.</p>
+                </div>
+                <div class="functionality-card">
+                    <div class="functionality-icon">🤖</div>
+                    <h3>AI Assistant</h3>
+                    <p>Get smart suggestions for task prioritization and organization.</p>
+                </div>
+                <div class="functionality-card">
+                    <div class="functionality-icon">📊</div>
+                    <h3>Progress Tracking</h3>
+                    <p>Visual progress rings show completion rates for each category.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <span class="footer-logo">Task-Me ✨</span>
+                <p class="footer-copyright">© 2024 Task-Me. All rights reserved.</p>
+            </div>
+            <div class="footer-right">
+                <div class="footer-links">
+
+                    <a href="https://github.com/Ulimativo/task-me" target="_blank">GitHub</a>
+                </div>
+                <p class="footer-version">Version 1.0.0 Beta</p>
+            </div>
+        </div>
+    </footer>
     <script src="/scripts/main.js"></script>
 </body>
 </html>
