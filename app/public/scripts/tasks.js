@@ -407,14 +407,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateCategoryProgress() {
         const categories = document.querySelectorAll('.category-section');
+        let totalTasks = 0;
+        let totalCompleted = 0;
         
         categories.forEach(category => {
             const tasks = category.querySelectorAll('.task-item');
             const completedTasks = category.querySelectorAll('.task-item.completed');
             
+            totalTasks += tasks.length;
+            totalCompleted += completedTasks.length;
+            
             const progress = tasks.length ? (completedTasks.length / tasks.length) * 100 : 0;
             
-            // Update progress ring
+            // Update category progress ring
             const ring = category.querySelector('.progress-ring-circle');
             const text = category.querySelector('.progress-text');
             
@@ -428,6 +433,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 text.textContent = `${Math.round(progress)}%`;
             }
         });
+        
+        // Update overall progress ring
+        const overallProgress = totalTasks ? (totalCompleted / totalTasks) * 100 : 0;
+        const overallRing = document.querySelector('.overall-progress .progress-ring-circle');
+        const overallText = document.querySelector('.overall-progress .progress-percentage');
+        
+        if (overallRing && overallText) {
+            const radius = overallRing.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+            
+            overallRing.style.strokeDasharray = `${circumference} ${circumference}`;
+            overallRing.style.strokeDashoffset = circumference - (overallProgress / 100) * circumference;
+            
+            overallText.textContent = `${Math.round(overallProgress)}%`;
+        }
     }
 
     // Initialize everything

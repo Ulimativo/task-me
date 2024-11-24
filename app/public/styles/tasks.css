@@ -40,12 +40,48 @@
     transform: translateY(-2px);
 }
 
-/* Quick Add Section */
+/* Quick Add Section with Overall Progress */
 .quick-add {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
     margin-bottom: 3rem;
 }
 
+.overall-progress {
+    flex-shrink: 0;
+}
+
+/* Large Progress Ring */
+.progress-ring.large {
+    width: 80px;
+    height: 80px;
+}
+
+.progress-ring.large .progress-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.progress-ring.large .progress-percentage {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.progress-ring.large .progress-label {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Update task input container for new layout */
 .task-input-container {
+    flex-grow: 1;
     display: flex;
     gap: 1rem;
     background: var(--card-bg);
