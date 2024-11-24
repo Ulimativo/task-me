@@ -4,11 +4,21 @@ export function initializeProfileModal() {
     const overlay = document.querySelector('.modal-overlay');
     const closeBtn = modal.querySelector('.close-btn');
 
+    // Ensure initial state
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+
     function openModal() {
-        overlay.style.display = 'block';
-        modal.style.display = 'block';
+        // Reset any inline styles
+        modal.style.removeProperty('display');
+        overlay.style.removeProperty('display');
+        
         // Force reflow
         modal.offsetHeight;
+        
+        // Add active classes
         overlay.classList.add('active');
         modal.classList.add('active');
     }
@@ -19,8 +29,8 @@ export function initializeProfileModal() {
         
         // Wait for animations to finish before hiding
         setTimeout(() => {
-            overlay.style.display = 'none';
             modal.style.display = 'none';
+            overlay.style.display = 'none';
         }, 300);
     }
 
