@@ -1,0 +1,11 @@
+/* TEAM */
+Developer: Ulrich Raab
+Site: https://ulrichraab.eu
+Twitter: @ulimativ
+Location: Austria
+
+/* SITE */
+Last update: 2024/03/20
+Standards: HTML5, CSS3, ES6
+Components: Vanilla JS
+Software: VS Code, Docker, Nginx

@@ -3,7 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task-Me ✨</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Task-Me ✨ - Make Productivity Fun</title>
+    <meta name="title" content="Task-Me ✨ - Make Productivity Fun">
+    <meta name="description" content="The task manager that makes productivity feel like a game. Organize tasks, track progress, and achieve your goals with a fun, gamified experience.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://taskme.ulrichraab.eu/">
+    <meta property="og:title" content="Task-Me ✨ - Make Productivity Fun">
+    <meta property="og:description" content="The task manager that makes productivity feel like a game. Organize tasks, track progress, and achieve your goals with a fun, gamified experience.">
+    <meta property="og:image" content="https://taskme.ulrichraab.eu/images/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://taskme.ulrichraab.eu/">
+    <meta property="twitter:title" content="Task-Me ✨ - Make Productivity Fun">
+    <meta property="twitter:description" content="The task manager that makes productivity feel like a game. Organize tasks, track progress, and achieve your goals with a fun, gamified experience.">
+    <meta property="twitter:image" content="https://taskme.ulrichraab.eu/images/twitter-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#6366f1">
+    
+    <!-- Existing styles -->
     <link rel="stylesheet" href="/styles/main.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,5 +123,27 @@
         </div>
     </footer>
     <script src="/scripts/main.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Task-Me",
+      "description": "The task manager that makes productivity feel like a game",
+      "applicationCategory": "Productivity",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "screenshot": "https://taskme.ulrichraab.eu/images/screenshot.jpg",
+      "featureList": [
+        "Task Management",
+        "Progress Tracking",
+        "AI Assistant",
+        "Keyboard Shortcuts"
+      ]
+    }
+    </script>
 </body>
 </html>

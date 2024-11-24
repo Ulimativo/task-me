@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://taskme.ulrichraab.eu/sitemap.xml
