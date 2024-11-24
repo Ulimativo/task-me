@@ -509,7 +509,7 @@ main {
 
 /* Modal Styles */
 .modal-overlay {
-    display: none;
+    display: none;  /* Start hidden */
     position: fixed;
     top: 0;
     left: 0;
@@ -519,14 +519,16 @@ main {
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.3s ease;
+    pointer-events: none;  /* Prevent interaction when hidden */
 }
 
 .modal-overlay.active {
     opacity: 1;
+    pointer-events: auto;  /* Enable interaction when visible */
 }
 
 .profile-modal {
-    display: none;
+    display: none;  /* Start hidden */
     position: fixed;
     top: 50%;
     left: 50%;
@@ -540,10 +542,12 @@ main {
     max-width: 400px;
     opacity: 0;
     transition: all 0.3s ease;
+    pointer-events: none;  /* Prevent interaction when hidden */
 }
 
 .profile-modal.active {
     opacity: 1;
+    pointer-events: auto;  /* Enable interaction when visible */
     transform: translate(-50%, -50%) scale(1);
 }
 
