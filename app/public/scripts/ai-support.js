@@ -1,25 +1,80 @@
 // AI Support functionality
+import { AIService } from './ai-service.js';
+
 export function initializeAISupport() {
+    console.log('Initializing AI Support...');
+
+    // Get DOM elements
     const aiButton = document.querySelector('.ai-support-btn');
     const aiModal = document.querySelector('.ai-modal');
     const modalOverlay = document.querySelector('.modal-overlay');
     const closeButton = document.querySelector('.ai-close-btn');
     const aiActionButtons = document.querySelectorAll('.ai-action-btn');
 
-    // Open modal
-    aiButton.addEventListener('click', () => {
-        aiModal.classList.add('active');
-        modalOverlay.classList.add('active');
-    });
+    // Debug logs
+    console.log('AI Button:', aiButton);
+    console.log('AI Modal:', aiModal);
+    console.log('Modal Overlay:', modalOverlay);
+    console.log('Close Button:', closeButton);
 
-    // Close modal
-    function closeModal() {
-        aiModal.classList.remove('active');
-        modalOverlay.classList.remove('active');
+    if (!aiButton || !aiModal || !modalOverlay || !closeButton) {
+        console.error('AI Support: Required elements not found');
+        return;
     }
 
+    // Close modal
+    function closeModal(e) {
+        if (e) {
+            e.preventDefault();
+        }
+        console.log('Closing modal');
+        
+        // Remove active classes to trigger transitions
+        modalOverlay.classList.remove('active');
+        aiModal.classList.remove('active');
+        
+        // Reset transform and opacity
+        aiModal.style.opacity = '0';
+        aiModal.style.transform = 'translate(-50%, -50%) scale(0.95)';
+    }
+
+    // Open modal
+    aiButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('AI button clicked');
+        
+        // Reset styles
+        modalOverlay.style.removeProperty('display');
+        aiModal.style.removeProperty('display');
+        
+        // Force reflow
+        modalOverlay.offsetHeight;
+        
+        // Add active classes to trigger transitions
+        modalOverlay.classList.add('active');
+        aiModal.classList.add('active');
+        
+        // Reset transform and opacity
+        aiModal.style.opacity = '1';
+        aiModal.style.transform = 'translate(-50%, -50%) scale(1)';
+    });
+
+    // Close button click
     closeButton.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', closeModal);
+    
+    // Close on overlay click
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            closeModal();
+        }
+    });
+    
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+            closeModal();
+        }
+    });
 
     // AI Actions
     aiActionButtons.forEach(button => {
@@ -30,197 +85,130 @@ export function initializeAISupport() {
     });
 
     async function handleAIAction(action) {
-        const suggestions = document.querySelector('.ai-suggestions');
-        suggestions.innerHTML = '<p>Analyzing your tasks... 🤔</p>';
-
         try {
-            // Collect all tasks with their current categories
-            const tasks = Array.from(document.querySelectorAll('.task-item')).map(task => ({
-                id: task.id,
-                text: task.querySelector('.task-content h3').textContent,
-                completed: task.querySelector('input[type="checkbox"]').checked,
-                currentCategory: task.closest('.category-section')?.dataset.category || 'inbox'
-            }));
-
-            if (tasks.length === 0) {
-                suggestions.innerHTML = `
+            // Get all tasks from the inbox
+            const inboxContainer = document.querySelector('[data-category="inbox"] .tasks-container');
+            const taskElements = inboxContainer.querySelectorAll('.task-item');
+            
+            if (!taskElements.length) {
+                console.log('No tasks found in inbox');
+                const suggestionsContainer = document.querySelector('.ai-suggestions');
+                suggestionsContainer.innerHTML = `
                     <div class="ai-suggestion">
-                        <p>No tasks found to analyze! Add some tasks first.</p>
+                        <p>ℹ️ No tasks found in inbox to analyze.</p>
                     </div>
                 `;
                 return;
             }
 
-            // Send to backend
-            const response = await fetch('/api/analyze-tasks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ tasks, action })
+            console.log(`Processing ${taskElements.length} tasks from inbox`);
+
+            // Convert task elements to task objects with exact selectors
+            const tasks = Array.from(taskElements).map(taskEl => {
+                // Debug log
+                console.log('Processing task element:', taskEl);
+
+                // Get task title using the exact class
+                const titleEl = taskEl.querySelector('.task-content .task-text');
+                const title = titleEl ? titleEl.textContent.trim() : 'Untitled Task';
+
+                // Get completion status
+                const isCompleted = taskEl.querySelector('input[type="checkbox"]').checked;
+
+                return {
+                    id: taskEl.id,
+                    title: title,
+                    completed: isCompleted,
+                    category: 'inbox'
+                };
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to get AI suggestions');
-            }
+            // Debug log the collected tasks
+            console.log('Collected tasks:', tasks);
 
-            const data = await response.json();
-            displaySuggestions(data.suggestions, action);
-
-        } catch (error) {
-            console.error('AI Analysis Error:', error);
-            suggestions.innerHTML = `
-                <div class="ai-error">
-                    <p>😅 Oops! Something went wrong while analyzing your tasks.</p>
-                    <p>Please try again later.</p>
-                </div>
-            `;
-        }
-    }
-
-    function displaySuggestions(suggestions, action) {
-        const suggestionsContainer = document.querySelector('.ai-suggestions');
-        
-        try {
-            const parsedSuggestions = JSON.parse(suggestions);
-            
-            switch(action) {
-                case 'categorize':
-                    displayCategorySuggestions(parsedSuggestions);
-                    break;
-                case 'prioritize':
-                    displayPrioritySuggestions(parsedSuggestions);
-                    break;
-                case 'optimize':
-                    displayOptimizationSuggestions(parsedSuggestions);
-                    break;
-            }
-        } catch (error) {
+            // Show loading state
+            const suggestionsContainer = document.querySelector('.ai-suggestions');
             suggestionsContainer.innerHTML = `
-                <div class="ai-suggestion">
-                    <p>${suggestions}</p>
+                <div class="ai-loading">
+                    <p>🤔 Analyzing ${tasks.length} tasks...</p>
                 </div>
             `;
-        }
-    }
 
-    function displayCategorySuggestions(suggestions) {
-        const suggestionsContainer = document.querySelector('.ai-suggestions');
-        suggestionsContainer.innerHTML = Object.entries(suggestions)
-            .map(([taskId, suggestion]) => `
-                <div class="ai-suggestion" data-task-id="${taskId}" data-category="${suggestion.category}">
-                    <p><strong>${suggestion.taskText}</strong></p>
-                    <p>Suggested category: ${suggestion.categoryName} ${getCategoryEmoji(suggestion.category)}</p>
-                    <p class="suggestion-reason">${suggestion.reason}</p>
-                    <button class="apply-suggestion">Apply</button>
-                </div>
-            `).join('');
+            // Get AI suggestions
+            const suggestions = await AIService.analyzeTasks(tasks, action);
+            console.log('Received suggestions:', suggestions);
 
-        // Add click handlers for suggestions
-        suggestionsContainer.querySelectorAll('.apply-suggestion').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const suggestion = e.target.closest('.ai-suggestion');
-                const taskId = suggestion.dataset.taskId;
-                const category = suggestion.dataset.category;
-                moveTaskToCategory(taskId, category);
-                suggestion.classList.add('applied');
-                button.textContent = 'Applied ✓';
-                button.disabled = true;
-            });
-        });
-    }
-
-    function displayPrioritySuggestions(suggestions) {
-        const suggestionsContainer = document.querySelector('.ai-suggestions');
-        
-        // Create a priority list with task details
-        const priorityList = suggestions.priorityOrder.map(taskId => {
-            const task = document.getElementById(taskId);
-            return {
-                taskId,
-                text: task.querySelector('.task-content h3').textContent,
-                reason: suggestions.reasoning[taskId]
-            };
-        });
-
-        // Display the suggestions
-        suggestionsContainer.innerHTML = `
-            <div class="ai-suggestion-summary">
-                <h3>📊 Suggested Task Priority</h3>
-                <p>Here's the recommended order for your tasks:</p>
+            // Process all suggestions and move tasks
+            let successCount = 0;
+            suggestions.forEach(suggestion => {
+                const taskElement = document.getElementById(suggestion.taskId);
+                const targetContainer = document.querySelector(`[data-category="${suggestion.suggestedCategory}"] .tasks-container`);
                 
-                <div class="changes-list">
-                    ${priorityList.map((item, index) => `
-                        <div class="change-item">
-                            <div class="priority-number">${index + 1}</div>
-                            <div class="priority-content">
-                                <p class="task-name"><strong>${item.text}</strong></p>
-                                <p class="suggestion-reason">${item.reason}</p>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
+                // Debug logging
+                console.log('Moving task:', {
+                    taskId: suggestion.taskId,
+                    targetCategory: suggestion.suggestedCategory,
+                    taskElement: taskElement,
+                    targetContainer: targetContainer
+                });
 
-                <div class="suggestion-actions">
-                    <button class="apply-all-suggestions">Apply This Order</button>
-                    <button class="decline-suggestions">Keep Current Order</button>
-                </div>
-            </div>
-        `;
-
-        // Add event listeners for the buttons
-        const applyButton = suggestionsContainer.querySelector('.apply-all-suggestions');
-        const declineButton = suggestionsContainer.querySelector('.decline-suggestions');
-
-        applyButton.addEventListener('click', () => {
-            // Reorder tasks according to priority
-            const tasksContainer = document.querySelector('.tasks-container');
-            suggestions.priorityOrder.forEach(taskId => {
-                const task = document.getElementById(taskId);
-                if (task) {
-                    tasksContainer.appendChild(task);
+                if (taskElement && targetContainer) {
+                    targetContainer.appendChild(taskElement);
+                    window.taskStore?.moveTask(suggestion.taskId, suggestion.suggestedCategory);
+                    successCount++;
+                    console.log(`Successfully moved task ${suggestion.taskId} to category ${suggestion.suggestedCategory}`);
+                } else {
+                    console.error('Failed to move task:', {
+                        taskFound: !!taskElement,
+                        containerFound: !!targetContainer,
+                        category: suggestion.suggestedCategory
+                    });
                 }
             });
 
-            // Show success message
-            suggestionsContainer.innerHTML = `
-                <div class="ai-suggestion success">
-                    <p>✅ Tasks have been reordered successfully!</p>
-                </div>
-            `;
-        });
-
-        declineButton.addEventListener('click', () => {
+            // Display results with exact selectors
             suggestionsContainer.innerHTML = `
                 <div class="ai-suggestion">
-                    <p>Order unchanged. Your tasks remain in their current order.</p>
+                    <p>✨ ${successCount} tasks have been reorganized:</p>
+                    <ul>
+                        ${suggestions.map(s => {
+                            const taskEl = document.getElementById(s.taskId);
+                            const titleEl = taskEl?.querySelector('.task-content .task-text');
+                            const taskTitle = titleEl ? titleEl.textContent.trim() : 'Task';
+                            
+                            return `
+                                <li>
+                                    <strong>${taskTitle}</strong>
+                                    → Category ${s.suggestedCategory.toUpperCase()}: ${s.reason}
+                                </li>
+                            `;
+                        }).join('')}
+                    </ul>
                 </div>
             `;
-        });
-    }
 
-    function moveTaskToCategory(taskId, category) {
-        const task = document.getElementById(taskId);
-        const targetContainer = document.querySelector(`[data-category="${category}"] .tasks-container`);
-        if (task && targetContainer) {
-            targetContainer.appendChild(task);
-            // Update task store
-            window.taskStore?.moveTask(taskId, category);
+        } catch (error) {
+            console.error('AI Analysis Error:', error);
+            const suggestionsContainer = document.querySelector('.ai-suggestions');
+            suggestionsContainer.innerHTML = `
+                <div class="ai-error">
+                    <p>😅 Oops! Something went wrong while analyzing the tasks.</p>
+                    <p>Error: ${error.message}</p>
+                </div>
+            `;
         }
     }
 
-    // ... add displayOptimizationSuggestions function ...
-}
-
-function getCategoryEmoji(category) {
-    switch(category) {
-        case 'a':
-            return '🔥';
-        case 'd':
-            return '👥';
-        case 'e':
-            return '❌';
-        default:
-            return '✨';
+    function getCategoryEmoji(category) {
+        switch(category) {
+            case 'a':
+                return '🔥';
+            case 'd':
+                return '👥';
+            case 'e':
+                return '❌';
+            default:
+                return '✨';
+        }
     }
 }

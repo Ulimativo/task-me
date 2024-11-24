@@ -344,130 +344,6 @@
 }
 
 
-.ai-support-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-}
-
-.ai-support-btn:hover {
-    transform: translateY(-2px);
-    background: var(--primary);
-}
-
-.ai-icon {
-    font-size: 1.2rem;
-}
-
-/* AI Modal */
-.ai-modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--card-bg);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px var(--shadow);
-    z-index: 1000;
-    max-width: 500px;
-    width: 90%;
-}
-
-.ai-modal.active {
-    display: block;
-}
-
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
-
-.modal-overlay.active {
-    display: block;
-}
-
-.ai-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.ai-modal-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.ai-close-btn {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-}
-
-.ai-suggestions {
-    margin-top: 1rem;
-}
-
-.ai-suggestion {
-    padding: 1rem;
-    background: var(--background);
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.ai-suggestion:hover {
-    background: var(--shadow);
-}
-
-/* AI Action Buttons */
-.ai-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin: 1.5rem 0;
-}
-
-.ai-action-btn {
-    background: var(--card-bg);
-    border: 1px solid var(--text-light);
-    padding: 1rem;
-    border-radius: 12px;
-    cursor: pointer;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text);
-    transition: all 0.2s ease;
-    text-align: left;
-}
-
-.ai-action-btn:hover {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
-    transform: translateX(5px);
-}
-
 /* Add responsive styles for mobile */
 @media (max-width: 768px) {
     .ai-actions {
@@ -701,4 +577,57 @@
     --border-color: #e2e8f0;
     --primary-light: #dbeafe;
     --shadow: rgba(0, 0, 0, 0.1);
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+/* Modal styles */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: block !important;
+}
+
+.ai-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    width: 90%;
+    max-width: 500px;
+}
+
+.ai-modal.active {
+    display: block !important;
+}
+
+/* Make sure the button is visible and clickable */
+.ai-support-btn {
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
 }

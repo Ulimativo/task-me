@@ -7,12 +7,30 @@
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/tasks.css">
     <link rel="stylesheet" href="/styles/keyboard.css">
+    <link rel="stylesheet" href="/styles/ai-modal.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="modal-overlay"></div>
+    <div class="ai-modal">
+        <div class="ai-modal-header">
+            <h2>🤖 AI Task Assistant</h2>
+            <button class="ai-close-btn">×</button>
+        </div>
+        <div class="ai-modal-content">
+            <p>How can I help you with your tasks?</p>
+            <div class="ai-actions">
+                <button class="ai-action-btn" data-action="prioritize">⭐ Prioritize Tasks</button>
+                <button class="ai-action-btn" data-action="categorize">📊 Suggest Categories</button>
+                <button class="ai-action-btn" data-action="optimize">✨ Optimize Schedule</button>
+            </div>
+            <div class="ai-suggestions"></div>
+        </div>
+    </div>
+
     <nav>
         <div class="logo">Task-Me ✨</div>
         <div class="nav-links">
@@ -67,13 +85,13 @@
                 </div>
             </div>
 
-            <div class="category-section">
+            <div class="category-section" data-category="b">
                 <h2 class="category-header">B - Important Tasks ⭐</h2>
                 <p class="category-description">Medium urgency with manageable consequences</p>
                 <div class="tasks-container" data-droppable="true"></div>
             </div>
 
-            <div class="category-section">
+            <div class="category-section" data-category="c">
                 <h2 class="category-header">C - Nice-to-do Tasks ✨</h2>
                 <p class="category-description">Low importance but high urgency</p>
                 <div class="tasks-container" data-droppable="true">
@@ -81,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="category-section">
+            <div class="category-section" data-category="d">
                 <h2 class="category-header">D - Delegate Tasks 👥</h2>
                 <p class="category-description">Tasks that can be handled by others</p>
 
@@ -90,7 +108,7 @@
                 </div>
             </div>
 
-            <div class="category-section">
+            <div class="category-section" data-category="e">
                 <h2 class="category-header">E - Eliminate Tasks ❌</h2>
 
                 <div class="tasks-container" data-droppable="true">
@@ -107,24 +125,6 @@
             <button class="cta-button">Add Task ⚡️</button>
         </section>
     </main>
-
-    <!-- AI Support Modal -->
-    <div class="modal-overlay"></div>
-    <div class="ai-modal">
-        <div class="ai-modal-header">
-            <h2 class="ai-modal-title">🤖 AI Task Assistant</h2>
-            <button class="ai-close-btn">×</button>
-        </div>
-        <div class="ai-modal-content">
-            <p>How can I help you with your tasks?</p>
-            <div class="ai-actions">
-                <button class="ai-action-btn" data-action="categorize">📊 Suggest Categories</button>
-                <button class="ai-action-btn" data-action="prioritize">⭐ Prioritize Tasks</button>
-                <button class="ai-action-btn" data-action="optimize">✨ Optimize Schedule</button>
-            </div>
-            <div class="ai-suggestions"></div>
-        </div>
-    </div>
 
     <!-- Keyboard Shortcuts Modal -->
 <div class="keyboard-shortcuts">
@@ -186,11 +186,10 @@
     <script src="/scripts/tasks.js"></script>
     <script type="module">
         import { initializeAISupport } from '/scripts/ai-support.js';
-        import { initializeKeyboardControls } from '/scripts/keyboard-controls.js';
         
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('Initializing AI Support...');
             initializeAISupport();
-            initializeKeyboardControls();
         });
     </script>
 
