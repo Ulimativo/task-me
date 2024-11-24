@@ -23,6 +23,7 @@ export function initializeKeyboardControls() {
     const shortcutsModal = document.querySelector('.keyboard-shortcuts');
     const modalOverlay = document.querySelector('.modal-overlay');
     const closeBtn = shortcutsModal.querySelector('.close-btn');
+    const shortcutsBtn = document.querySelector('.keyboard-shortcuts-btn');
 
     document.addEventListener('keydown', (e) => {
         // Ignore keyboard shortcuts when typing in input fields
@@ -38,19 +39,24 @@ export function initializeKeyboardControls() {
     });
 
     function showKeyboardShortcuts() {
+        shortcutsModal.style.removeProperty('display');
+        modalOverlay.style.removeProperty('display');
+        
+        // Force reflow
+        shortcutsModal.offsetHeight;
+        
+        modalOverlay.classList.add('active');
         shortcutsModal.classList.add('active');
-        modalOverlay.classList.add('active'); // Add overlay when showing shortcuts
     }
 
     function hideKeyboardShortcuts() {
-        shortcutsModal.classList.remove('active');
         modalOverlay.classList.remove('active');
+        shortcutsModal.classList.remove('active');
     }
 
-    // Close button handler
+    // Event listeners for modal
+    shortcutsBtn.addEventListener('click', showKeyboardShortcuts);
     closeBtn.addEventListener('click', hideKeyboardShortcuts);
-
-    // Close on overlay click
     modalOverlay.addEventListener('click', hideKeyboardShortcuts);
 
     function focusNewTask() {
@@ -150,8 +156,4 @@ export function initializeKeyboardControls() {
             window.taskStore?.moveTask(selectedTaskId, category);
         }
     }
-
-    // Add button click handler
-    const shortcutsButton = document.querySelector('.keyboard-shortcuts-btn');
-    shortcutsButton.addEventListener('click', showKeyboardShortcuts);
 }

@@ -111,7 +111,7 @@
     border-radius: 16px;
     margin-bottom: 1rem;
     transition: all 0.3s ease;
-    cursor: grab;
+    cursor: pointer;
     box-shadow: 0 2px 4px var(--shadow);
 }
 
@@ -123,41 +123,7 @@
 
 /* Improved checkbox styling */
 .task-checkbox {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    border: 2px solid var(--primary);
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-    cursor: pointer;
-}
-
-.task-checkbox input[type="checkbox"] {
-    opacity: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-}
-
-.task-checkbox::after {
-    content: '✓';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    color: white;
-    transition: transform 0.2s ease;
-}
-
-.task-checkbox input[type="checkbox"]:checked + .task-checkbox {
-    background: var(--primary);
-    border-color: var(--primary);
-}
-
-.task-checkbox input[type="checkbox"]:checked + .task-checkbox::after {
-    transform: translate(-50%, -50%) scale(1);
+    display: none;
 }
 
 /* Enhanced task content */
@@ -198,6 +164,7 @@
     gap: 0.75rem;
     opacity: 0;
     transition: opacity 0.2s ease;
+    z-index: 2;
 }
 
 .task-item:hover .task-actions {
@@ -228,12 +195,11 @@
 
 /* Enhanced completed task style */
 .task-item.completed {
-    opacity: 0.85;
     background: var(--success-light);
     border-color: var(--success);
 }
 
-.task-item.completed .task-content h3 {
+.task-item.completed .task-text {
     text-decoration: line-through;
     color: var(--text-light);
 }
@@ -625,9 +591,131 @@
     display: block !important;
 }
 
-/* Make sure the button is visible and clickable */
+/* AI Support Button with pulsating effect */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 105, 180, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 105, 180, 0);
+    }
+}
+
 .ai-support-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #FF69B4; /* Neon pink */
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
     position: relative;
     z-index: 1;
-    cursor: pointer;
+    animation: pulse 2s infinite;
+}
+
+.ai-support-btn:hover {
+    background: #FF1493; /* Deeper pink on hover */
+    transform: translateY(-2px);
+    animation: none; /* Stop pulsing on hover */
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+}
+
+/* Optional: Add a subtle scale animation to the AI icon */
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.ai-support-btn .ai-icon {
+    animation: bounce 2s infinite;
+    display: inline-block;
+}
+
+/* Beta Badge */
+.beta-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    margin-left: 0.5rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+    animation: pulse 2s infinite;
+}
+
+.beta-badge:hover {
+    transform: translateY(-2px);
+    animation: none;
+    box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3);
+}
+
+/* Category Header with Progress Ring */
+.category-header-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Progress Ring Styles */
+.progress-ring {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+.progress-ring svg {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle-bg {
+    fill: none;
+    stroke: var(--shadow);
+    stroke-width: 3;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+/* Category-specific colors */
+.progress-ring[data-color="danger"] .progress-ring-circle {
+    stroke: #EF4444;
+}
+
+.progress-ring[data-color="warning"] .progress-ring-circle {
+    stroke: #F59E0B;
+}
+
+.progress-ring[data-color="success"] .progress-ring-circle {
+    stroke: #10B981;
+}
+
+.progress-ring[data-color="info"] .progress-ring-circle {
+    stroke: #3B82F6;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text);
 }

@@ -214,3 +214,38 @@
 .ai-error p:first-child {
     margin-bottom: 0.5rem;
 }
+
+/* Add role input styling */
+.ai-role-input {
+    margin: 1rem 0;
+}
+
+.ai-role-input label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.role-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--text-light);
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    background: var(--card-bg);
+    color: var(--text);
+    transition: all 0.2s ease;
+}
+
+.role-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+}
+
+/* Update actions spacing */
+.ai-actions {
+    margin: 1rem 0;
+}

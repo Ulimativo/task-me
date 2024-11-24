@@ -1,27 +1,50 @@
-/* Keyboard selected task styling */
-.task-item.keyboard-selected {
-    outline: 2px solid var(--primary);
-    background: var(--shadow);
-}
-
-/* Keyboard shortcuts modal */
+/* Keyboard Shortcuts Modal */
 .keyboard-shortcuts {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.95);
     background: var(--card-bg);
     padding: 2rem;
     border-radius: 16px;
     box-shadow: 0 4px 20px var(--shadow);
-    z-index: 1000;
+    z-index: 1001;
     max-width: 600px;
     width: 90%;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .keyboard-shortcuts.active {
     display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Keyboard shortcuts button styling */
+.keyboard-shortcuts-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--card-bg);
+    color: var(--text);
+    border: 1px solid var(--text-light);
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.keyboard-shortcuts-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.keyboard-icon {
+    font-size: 1.2rem;
 }
 
 .shortcuts-grid {

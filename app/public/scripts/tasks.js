@@ -235,10 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const taskHtml = `
             <div class="task-item ${taskData.completed ? 'completed' : ''}" id="${taskData.id}" draggable="true">
                 <span class="drag-handle">⋮⋮</span>
-                <label class="task-checkbox">
-                    <input type="checkbox" ${taskData.completed ? 'checked' : ''}>
-                    <span class="checkmark"></span>
-                </label>
                 <div class="task-content">
                     <h3 class="task-text">${taskData.text}</h3>
                 </div>
@@ -261,60 +257,74 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initializeTaskListeners(taskElement) {
-        // Existing listeners
-        const checkbox = taskElement.querySelector('input[type="checkbox"]');
-        checkbox.addEventListener('change', (e) => {
-            taskStore.updateTask(taskElement.id, { completed: e.target.checked });
-            taskElement.classList.toggle('completed', e.target.checked);
+        // Click handler for task completion
+        taskElement.addEventListener('click', (e) => {
+            // Don't toggle completion if clicking buttons or during edit
+            if (e.target.closest('.task-actions') || 
+                e.target.closest('.edit-input') || 
+                e.target.closest('.drag-handle')) {
+                return;
+            }
+            
+            const isCompleted = taskElement.classList.toggle('completed');
+            taskStore.updateTask(taskElement.id, { completed: isCompleted });
+            updateCategoryProgress();
         });
 
+        // Delete button handler
         const deleteBtn = taskElement.querySelector('.delete-btn');
-        deleteBtn.addEventListener('click', () => {
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent task completion toggle
             taskElement.remove();
             taskStore.removeTask(taskElement.id);
+            updateCategoryProgress();
         });
 
-        // New edit functionality
+        // Edit button handler
         const editBtn = taskElement.querySelector('.edit-btn');
-        const taskTextElement = taskElement.querySelector('.task-text');
-        
-        editBtn.addEventListener('click', () => {
-            const currentText = taskTextElement.textContent;
-            taskTextElement.innerHTML = `
-                <input type="text" class="edit-input" value="${currentText}">
-            `;
+        editBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent task completion toggle
             
-            const editInput = taskTextElement.querySelector('.edit-input');
+            const taskContent = taskElement.querySelector('.task-content');
+            const taskText = taskContent.querySelector('.task-text');
+            const currentText = taskText.textContent;
+            
+            // Create edit input
+            const editInput = document.createElement('input');
+            editInput.type = 'text';
+            editInput.className = 'edit-input';
+            editInput.value = currentText;
+            
+            // Replace text with input
+            taskContent.innerHTML = '';
+            taskContent.appendChild(editInput);
             editInput.focus();
-            editInput.select();
-
-            function saveEdit() {
+            
+            // Handle edit completion
+            editInput.addEventListener('blur', finishEdit);
+            editInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    finishEdit();
+                }
+            });
+            
+            function finishEdit() {
                 const newText = editInput.value.trim();
                 if (newText) {
                     taskStore.updateTask(taskElement.id, { text: newText });
-                    taskTextElement.textContent = newText;
+                    taskContent.innerHTML = `<h3 class="task-text">${newText}</h3>`;
                 } else {
-                    taskTextElement.textContent = currentText;
+                    taskContent.innerHTML = `<h3 class="task-text">${currentText}</h3>`;
                 }
             }
-
-            editInput.addEventListener('blur', saveEdit);
-            editInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    saveEdit();
-                }
-            });
-            editInput.addEventListener('keyup', (e) => {
-                if (e.key === 'Escape') {
-                    taskTextElement.textContent = currentText;
-                }
-            });
         });
 
-        // Drag and drop listeners
+        // Drag handlers
         taskElement.addEventListener('dragstart', handleDragStart);
-        taskElement.addEventListener('dragend', handleDragEnd);
+        taskElement.addEventListener('dragend', (e) => {
+            handleDragEnd(e);
+            updateCategoryProgress();
+        });
     }
 
     // Event listeners
@@ -376,6 +386,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Update DOM
             dropZone.appendChild(taskElement);
+            
+            // Update progress rings after moving task
+            updateCategoryProgress();
         }
     }
 
@@ -391,4 +404,47 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         return categories[category] || 'Inbox';
     }
+
+    function updateCategoryProgress() {
+        const categories = document.querySelectorAll('.category-section');
+        
+        categories.forEach(category => {
+            const tasks = category.querySelectorAll('.task-item');
+            const completedTasks = category.querySelectorAll('.task-item.completed');
+            
+            const progress = tasks.length ? (completedTasks.length / tasks.length) * 100 : 0;
+            
+            // Update progress ring
+            const ring = category.querySelector('.progress-ring-circle');
+            const text = category.querySelector('.progress-text');
+            
+            if (ring && text) {
+                const radius = ring.r.baseVal.value;
+                const circumference = radius * 2 * Math.PI;
+                
+                ring.style.strokeDasharray = `${circumference} ${circumference}`;
+                ring.style.strokeDashoffset = circumference - (progress / 100) * circumference;
+                
+                text.textContent = `${Math.round(progress)}%`;
+            }
+        });
+    }
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+        // ... existing initialization code ...
+        
+        // Initialize progress rings
+        updateCategoryProgress();
+        
+        // Observe changes to update progress
+        const tasksContainer = document.querySelector('.tasks-list');
+        const observer = new MutationObserver(updateCategoryProgress);
+        observer.observe(tasksContainer, { 
+            subtree: true, 
+            childList: true, 
+            attributes: true, 
+            attributeFilter: ['class'] 
+        });
+    });
 });

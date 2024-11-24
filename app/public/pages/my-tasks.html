@@ -21,18 +21,22 @@
             <button class="ai-close-btn">×</button>
         </div>
         <div class="ai-modal-content">
-            <p>How can I help you with your tasks?</p>
+            <div class="ai-role-input">
+                <label for="user-role">Your Role:</label>
+                <input type="text" id="user-role" placeholder="e.g., Project Manager, Developer, Designer..." class="role-input">
+            </div>
             <div class="ai-actions">
                 <button class="ai-action-btn" data-action="prioritize">⭐ Prioritize Tasks</button>
-                <button class="ai-action-btn" data-action="categorize">📊 Suggest Categories</button>
-                <button class="ai-action-btn" data-action="optimize">✨ Optimize Schedule</button>
             </div>
             <div class="ai-suggestions"></div>
         </div>
     </div>
 
     <nav>
-        <div class="logo">Task-Me ✨</div>
+        <div class="logo">
+            Task-Me ✨
+            <span class="beta-badge">BETA</span>
+        </div>
         <div class="nav-links">
             <a href="/">Home</a>
             <a href="/pages/my-tasks.html" class="active">My Tasks</a>
@@ -70,7 +74,16 @@
         <!-- Replace filters section with category headers -->
         <section class="tasks-list">
             <div class="category-section" data-category="inbox">
-                <h2 class="category-header">📥 Inbox</h2>
+                <div class="category-header-wrapper">
+                    <div class="progress-ring" data-color="info">
+                        <svg width="40" height="40">
+                            <circle class="progress-ring-circle-bg" cx="20" cy="20" r="16"></circle>
+                            <circle class="progress-ring-circle" cx="20" cy="20" r="16"></circle>
+                        </svg>
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <h2 class="category-header">📥 Inbox</h2>
+                </div>
                 <p class="category-description">New tasks land here. Drag them to categorize.</p>
                 <div class="tasks-container" data-droppable="true">
                     <!-- Tasks will be added here -->
@@ -78,7 +91,16 @@
             </div>
         
             <div class="category-section" data-category="a">
-                <h2 class="category-header">A - Very Important & Urgent 🔥</h2>
+                <div class="category-header-wrapper">
+                    <div class="progress-ring" data-color="danger">
+                        <svg width="40" height="40">
+                            <circle class="progress-ring-circle-bg" cx="20" cy="20" r="16"></circle>
+                            <circle class="progress-ring-circle" cx="20" cy="20" r="16"></circle>
+                        </svg>
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <h2 class="category-header">A - Very Important & Urgent 🔥</h2>
+                </div>
                 <p class="category-description">High urgency tasks with serious consequences</p>
                 <div class="tasks-container" data-droppable="true">
                     <!-- Tasks will be added here -->
@@ -86,13 +108,31 @@
             </div>
 
             <div class="category-section" data-category="b">
-                <h2 class="category-header">B - Important Tasks ⭐</h2>
+                <div class="category-header-wrapper">
+                    <div class="progress-ring" data-color="warning">
+                        <svg width="40" height="40">
+                            <circle class="progress-ring-circle-bg" cx="20" cy="20" r="16"></circle>
+                            <circle class="progress-ring-circle" cx="20" cy="20" r="16"></circle>
+                        </svg>
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <h2 class="category-header">B - Important Tasks ⭐</h2>
+                </div>
                 <p class="category-description">Medium urgency with manageable consequences</p>
                 <div class="tasks-container" data-droppable="true"></div>
             </div>
 
             <div class="category-section" data-category="c">
-                <h2 class="category-header">C - Nice-to-do Tasks ✨</h2>
+                <div class="category-header-wrapper">
+                    <div class="progress-ring" data-color="success">
+                        <svg width="40" height="40">
+                            <circle class="progress-ring-circle-bg" cx="20" cy="20" r="16"></circle>
+                            <circle class="progress-ring-circle" cx="20" cy="20" r="16"></circle>
+                        </svg>
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <h2 class="category-header">C - Nice-to-do Tasks ✨</h2>
+                </div>
                 <p class="category-description">Low importance but high urgency</p>
                 <div class="tasks-container" data-droppable="true">
                     <!-- Tasks will be added here -->
@@ -100,7 +140,16 @@
             </div>
 
             <div class="category-section" data-category="d">
-                <h2 class="category-header">D - Delegate Tasks 👥</h2>
+                <div class="category-header-wrapper">
+                    <div class="progress-ring" data-color="info">
+                        <svg width="40" height="40">
+                            <circle class="progress-ring-circle-bg" cx="20" cy="20" r="16"></circle>
+                            <circle class="progress-ring-circle" cx="20" cy="20" r="16"></circle>
+                        </svg>
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <h2 class="category-header">D - Delegate Tasks 👥</h2>
+                </div>
                 <p class="category-description">Tasks that can be handled by others</p>
 
                 <div class="tasks-container" data-droppable="true">
@@ -109,7 +158,17 @@
             </div>
 
             <div class="category-section" data-category="e">
-                <h2 class="category-header">E - Eliminate Tasks ❌</h2>
+                <div class="category-header-wrapper">
+                    <div class="progress-ring" data-color="info">
+                        <svg width="40" height="40">
+                            <circle class="progress-ring-circle-bg" cx="20" cy="20" r="16"></circle>
+                            <circle class="progress-ring-circle" cx="20" cy="20" r="16"></circle>
+                        </svg>
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <h2 class="category-header">E - Eliminate Tasks ❌</h2>
+                </div>
+                <p class="category-description">Tasks to remove or decline</p>
 
                 <div class="tasks-container" data-droppable="true">
                     <!-- Tasks will be added here -->
@@ -126,70 +185,75 @@
         </section>
     </main>
 
-    <!-- Keyboard Shortcuts Modal -->
-<div class="keyboard-shortcuts">
-    <div class="modal-header">
-        <h2>⌨️ Keyboard Shortcuts</h2>
-        <button class="close-btn">×</button>
+    <!-- Update Keyboard Shortcuts Modal -->
+    <div class="modal-overlay"></div>
+    <div class="keyboard-shortcuts">
+        <div class="modal-header">
+            <h2>⌨️ Keyboard Shortcuts</h2>
+            <button class="close-btn">×</button>
+        </div>
+        <div class="shortcuts-grid">
+            <div class="shortcut-category">
+                <h3>Navigation</h3>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">j</span>
+                    <span class="shortcut-description">Next task</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">k</span>
+                    <span class="shortcut-description">Previous task</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">?</span>
+                    <span class="shortcut-description">Show shortcuts</span>
+                </div>
+            </div>
+            <div class="shortcut-category">
+                <h3>Actions</h3>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">n</span>
+                    <span class="shortcut-description">New task</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">e</span>
+                    <span class="shortcut-description">Edit task</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">d</span>
+                    <span class="shortcut-description">Delete task</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Enter</span>
+                    <span class="shortcut-description">Toggle completion</span>
+                </div>
+            </div>
+            <div class="shortcut-category">
+                <h3>Categories</h3>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">1</span>
+                    <span class="shortcut-description">Move to Inbox</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">a</span>
+                    <span class="shortcut-description">Move to Category A</span>
+                </div>
+                <!-- Add other category shortcuts -->
+            </div>
+        </div>
     </div>
-    <div class="shortcuts-grid">
-        <div class="shortcut-category">
-            <h3>Navigation</h3>
-            <div class="shortcut-item">
-                <span class="shortcut-key">j</span>
-                <span class="shortcut-description">Next task</span>
-            </div>
-            <div class="shortcut-item">
-                <span class="shortcut-key">k</span>
-                <span class="shortcut-description">Previous task</span>
-            </div>
-            <div class="shortcut-item">
-                <span class="shortcut-key">?</span>
-                <span class="shortcut-description">Show shortcuts</span>
-            </div>
-        </div>
-        <div class="shortcut-category">
-            <h3>Actions</h3>
-            <div class="shortcut-item">
-                <span class="shortcut-key">n</span>
-                <span class="shortcut-description">New task</span>
-            </div>
-            <div class="shortcut-item">
-                <span class="shortcut-key">e</span>
-                <span class="shortcut-description">Edit task</span>
-            </div>
-            <div class="shortcut-item">
-                <span class="shortcut-key">d</span>
-                <span class="shortcut-description">Delete task</span>
-            </div>
-            <div class="shortcut-item">
-                <span class="shortcut-key">Enter</span>
-                <span class="shortcut-description">Toggle completion</span>
-            </div>
-        </div>
-        <div class="shortcut-category">
-            <h3>Categories</h3>
-            <div class="shortcut-item">
-                <span class="shortcut-key">1</span>
-                <span class="shortcut-description">Move to Inbox</span>
-            </div>
-            <div class="shortcut-item">
-                <span class="shortcut-key">a</span>
-                <span class="shortcut-description">Move to Category A</span>
-            </div>
-            <!-- Add other category shortcuts -->
-        </div>
-    </div>
-</div>
 
     <script src="/scripts/main.js"></script>
     <script src="/scripts/tasks.js"></script>
     <script type="module">
         import { initializeAISupport } from '/scripts/ai-support.js';
+        import { initializeKeyboardControls } from '/scripts/keyboard-controls.js';
         
         document.addEventListener('DOMContentLoaded', () => {
             console.log('Initializing AI Support...');
             initializeAISupport();
+            
+            console.log('Initializing Keyboard Controls...');
+            initializeKeyboardControls();
         });
     </script>
 

@@ -86,6 +86,10 @@ export function initializeAISupport() {
 
     async function handleAIAction(action) {
         try {
+            // Get user role
+            const roleInput = document.getElementById('user-role');
+            const userRole = roleInput.value.trim() || 'Team Member'; // Default role if none provided
+
             // Get all tasks from the inbox
             const inboxContainer = document.querySelector('[data-category="inbox"] .tasks-container');
             const taskElements = inboxContainer.querySelectorAll('.task-item');
@@ -112,8 +116,8 @@ export function initializeAISupport() {
                 const titleEl = taskEl.querySelector('.task-content .task-text');
                 const title = titleEl ? titleEl.textContent.trim() : 'Untitled Task';
 
-                // Get completion status
-                const isCompleted = taskEl.querySelector('input[type="checkbox"]').checked;
+                // Get completion status from the task-item class instead of checkbox
+                const isCompleted = taskEl.classList.contains('completed');
 
                 return {
                     id: taskEl.id,
@@ -130,12 +134,12 @@ export function initializeAISupport() {
             const suggestionsContainer = document.querySelector('.ai-suggestions');
             suggestionsContainer.innerHTML = `
                 <div class="ai-loading">
-                    <p>🤔 Analyzing ${tasks.length} tasks...</p>
+                    <p>🤔 Analyzing ${tasks.length} tasks for ${userRole}...</p>
                 </div>
             `;
 
-            // Get AI suggestions
-            const suggestions = await AIService.analyzeTasks(tasks, action);
+            // Get AI suggestions with user role
+            const suggestions = await AIService.analyzeTasks(tasks, action, userRole);
             console.log('Received suggestions:', suggestions);
 
             // Process all suggestions and move tasks
