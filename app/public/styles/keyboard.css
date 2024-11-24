@@ -1,0 +1,90 @@
+/* Keyboard selected task styling */
+.task-item.keyboard-selected {
+    outline: 2px solid var(--primary);
+    background: var(--shadow);
+}
+
+/* Keyboard shortcuts modal */
+.keyboard-shortcuts {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px var(--shadow);
+    z-index: 1000;
+    max-width: 600px;
+    width: 90%;
+}
+
+.keyboard-shortcuts.active {
+    display: block;
+}
+
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.shortcut-category {
+    margin-bottom: 1.5rem;
+}
+
+.shortcut-category h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+}
+
+.shortcut-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.shortcut-key {
+    background: var(--background);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--primary);
+}
+
+.shortcut-description {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Modal Header and Close Button */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: var(--text);
+    transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+    color: var(--primary);
+}

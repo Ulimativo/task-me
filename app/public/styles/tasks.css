@@ -259,3 +259,312 @@
     color: var(--text-light);
     padding: 1rem;
 }
+
+
+.ai-support-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.ai-support-btn:hover {
+    transform: translateY(-2px);
+    background: var(--primary);
+}
+
+.ai-icon {
+    font-size: 1.2rem;
+}
+
+/* AI Modal */
+.ai-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px var(--shadow);
+    z-index: 1000;
+    max-width: 500px;
+    width: 90%;
+}
+
+.ai-modal.active {
+    display: block;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.modal-overlay.active {
+    display: block;
+}
+
+.ai-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.ai-modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.ai-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.ai-suggestions {
+    margin-top: 1rem;
+}
+
+.ai-suggestion {
+    padding: 1rem;
+    background: var(--background);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ai-suggestion:hover {
+    background: var(--shadow);
+}
+
+/* AI Action Buttons */
+.ai-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+.ai-action-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--text-light);
+    padding: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.ai-action-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateX(5px);
+}
+
+/* Add responsive styles for mobile */
+@media (max-width: 768px) {
+    .ai-actions {
+        gap: 0.5rem;
+    }
+
+    .ai-action-btn {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Keyboard Shortcuts Button */
+.keyboard-shortcuts-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--card-bg);
+    color: var(--text);
+    border: 1px solid var(--text-light);
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.keyboard-shortcuts-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.keyboard-icon {
+    font-size: 1.2rem;
+}
+
+/* AI Suggestions Styling */
+.ai-suggestion {
+    background: var(--card-bg);
+    border: 1px solid var(--text-light);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease;
+}
+
+.ai-suggestion.applied {
+    border-color: var(--success);
+    background: var(--success-light);
+}
+
+.suggestion-reason {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+.apply-suggestion {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.apply-suggestion:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.apply-suggestion:disabled {
+    background: var(--success);
+    cursor: default;
+    transform: none;
+}
+
+.ai-error {
+    background: var(--error-light);
+    border: 1px solid var(--error);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+}
+
+/* AI Suggestion Summary */
+.ai-suggestion-summary {
+    background: var(--card-bg);
+    border: 1px solid var(--text-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.ai-suggestion-summary h3 {
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.changes-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 1rem 0;
+}
+
+.change-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.25rem;
+    border: 1px solid var(--text-light);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    background: var(--card-bg);
+}
+
+.priority-number {
+    background: var(--primary);
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.priority-content {
+    flex-grow: 1;
+}
+
+.task-name {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.suggestion-reason {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.suggestion-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.apply-all-suggestions,
+.decline-suggestions {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.apply-all-suggestions {
+    background: var(--primary);
+    color: white;
+}
+
+.apply-all-suggestions:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.decline-suggestions {
+    background: var(--error);
+    color: white;
+}
+
+.decline-suggestions:hover {
+    background: var(--error-dark);
+    transform: translateY(-2px);
+}
