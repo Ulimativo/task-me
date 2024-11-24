@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tasks - Task-Me ✨</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/tasks.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="logo">Task-Me ✨</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/pages/my-tasks.html" class="active">My Tasks</a>
+            <a href="#">Stats</a>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+            <button class="profile-btn">😎</button>
+        </div>
+    </nav>
+
+    <main class="tasks-page">
+        <header class="tasks-header">
+            <h1>My Tasks 📝</h1>
+            <div class="view-controls">
+                <button class="view-btn active" data-view="list">📋 List</button>
+            </div>
+        </header>
+
+        <section class="quick-add">
+            <div class="task-input-container">
+                <input type="text" placeholder="Add a new task..." class="task-input">
+                <button class="add-btn">+</button>
+            </div>
+        </section>
+
+        <!-- Replace filters section with category headers -->
+        <section class="tasks-list">
+            <div class="category-section" data-category="inbox">
+                <h2 class="category-header">📥 Inbox</h2>
+                <p class="category-description">New tasks land here. Drag them to categorize.</p>
+                <div class="tasks-container" data-droppable="true">
+                    <!-- Tasks will be added here -->
+                </div>
+            </div>
+        
+            <div class="category-section" data-category="a">
+                <h2 class="category-header">A - Very Important & Urgent 🔥</h2>
+                <p class="category-description">High urgency tasks with serious consequences</p>
+                <div class="tasks-container" data-droppable="true">
+                    <!-- Tasks will be added here -->
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h2 class="category-header">B - Important Tasks ⭐</h2>
+                <p class="category-description">Medium urgency with manageable consequences</p>
+                <div class="tasks-container" data-droppable="true"></div>
+            </div>
+
+            <div class="category-section">
+                <h2 class="category-header">C - Nice-to-do Tasks ✨</h2>
+                <p class="category-description">Low importance but high urgency</p>
+                <div class="tasks-container" data-droppable="true">
+                    <!-- Tasks will be added here -->
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h2 class="category-header">D - Delegate Tasks 👥</h2>
+                <p class="category-description">Tasks that can be handled by others</p>
+
+                <div class="tasks-container" data-droppable="true">
+                    <!-- Tasks will be added here -->
+                </div>
+            </div>
+
+            <div class="category-section">
+                <h2 class="category-header">E - Eliminate Tasks ❌</h2>
+
+                <div class="tasks-container" data-droppable="true">
+                    <!-- Tasks will be added here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Empty State -->
+        <section class="empty-state" style="display: none;">
+            <div class="empty-illustration">✨</div>
+            <h2>No tasks yet!</h2>
+            <p>Add your first task to get started</p>
+            <button class="cta-button">Add Task ⚡️</button>
+        </section>
+    </main>
+
+    <script src="/scripts/main.js"></script>
+    <script src="/scripts/tasks.js"></script>
+</body>
+</html>
