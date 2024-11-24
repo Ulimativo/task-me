@@ -568,3 +568,48 @@
     background: var(--error-dark);
     transform: translateY(-2px);
 }
+
+/* Task Management Controls */
+.task-management {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+.management-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--text-light);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.management-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.storage-warning,
+.storage-error {
+    background: var(--warning-light);
+    border: 1px solid var(--warning);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.storage-error {
+    background: var(--error-light);
+    border-color: var(--error);
+}
+
+/* Add these variables to your root */
+:root {
+    --warning: #f0b429;
+    --warning-light: #fef3c7;
+}
